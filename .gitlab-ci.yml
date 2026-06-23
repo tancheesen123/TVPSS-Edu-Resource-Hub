@@ -1,0 +1,44 @@
+stages:
+  - build
+  - test
+  - sonarqube
+  - deploy
+
+build:
+  stage: build
+  image: maven:3.9-eclipse-temurin-17
+  script:
+    - mvn clean compile
+
+test:
+  stage: test
+  image: maven:3.9-eclipse-temurin-17
+  script:
+    - mvn test
+
+sonarqube-check:
+  stage: sonarqube
+  image: maven:3.9-eclipse-temurin-17
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - mvn verify sonar:sonar -Dsonar.projectKey=tvpss-edu-resource-hub -Dsonar.host.url=http://206.189.44.251:9000 -Dsonar.token=$SONAR_TOKEN
+  allow_failure: true
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  image: docker:24
+  services:
+    - docker:24-dind
+  script:
+    - echo "Building Docker image and deploying (simulated)..."
+    - docker build -t tvpss-edu-resource-hub .
+  only:
+    - main
