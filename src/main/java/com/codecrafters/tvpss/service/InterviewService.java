@@ -1,10 +1,7 @@
 package com.codecrafters.tvpss.service;
 
-import com.codecrafters.tvpss.dao.PostTalentDao;
 import com.codecrafters.tvpss.dao.InterviewDao;
 import com.codecrafters.tvpss.model.InterviewModel;
-import com.codecrafters.tvpss.model.TalentPostModel;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +16,12 @@ public class InterviewService {
 
     private final List<InterviewModel> interviewRequests = new ArrayList<>();
 
-    public void  addInterviewData(InterviewModel request) {
-        interviewDao.addInterviewData(request);
+    public void addInterviewData() {
+        interviewDao.addInterviewData();
     }
 
-    public int createInterview(InterviewModel interview,int post_talent_id, String username) {
-        return interviewDao.createInterview(interview,post_talent_id,username);
+    public int createInterview(int post_talent_id, String username) {
+        return interviewDao.createInterview(post_talent_id, username);
     }
 
     public void  updatePostCandidateId(int interview_id, int post_talent_candidate_id) {

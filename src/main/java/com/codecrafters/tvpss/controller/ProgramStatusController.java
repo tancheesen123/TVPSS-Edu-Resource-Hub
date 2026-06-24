@@ -1,7 +1,6 @@
 package com.codecrafters.tvpss.controller;
 
 import com.codecrafters.tvpss.model.ProgramStatusModel;
-import com.codecrafters.tvpss.model.ResourceRequestModel;
 import com.codecrafters.tvpss.service.ProgramStatusService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,8 +131,8 @@ public class ProgramStatusController {
     public String rejectRequest(@PathVariable String id,
                                  @RequestParam String feedback,
                                  RedirectAttributes redirectAttributes) {
-        programStatusService.approveRequest(id, feedback);
-        redirectAttributes.addFlashAttribute("message", "Request approved successfully");
+        programStatusService.rejectRequest(id, feedback);
+        redirectAttributes.addFlashAttribute("message", "Request rejected successfully");
         return "redirect:/manage-program-status";
     }
 

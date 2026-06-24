@@ -1,10 +1,7 @@
 package com.codecrafters.tvpss.dao;
 
-import com.codecrafters.tvpss.model.ResourceRequestModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.codecrafters.tvpss.model.TalentPostModel;
-import com.codecrafters.tvpss.model.TalentPostCandidateModel;
 import com.codecrafters.tvpss.model.InterviewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.time.LocalDate;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import java.sql.PreparedStatement;
@@ -27,7 +23,7 @@ public class InterviewDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public int createInterview(InterviewModel interview, int post_talent_id, String username) {
+    public int createInterview(int post_talent_id, String username) {
         String sql = "INSERT INTO interview (post_talent_id,username, time, date, feedback, status) VALUES (?, ?, ?, ?, ?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -51,7 +47,7 @@ public class InterviewDao {
     }
 
 
-    public void addInterviewData(InterviewModel request) {
+    public void addInterviewData() {
         String sql = "INSERT INTO interview (feedback, status, date, time, post_talent_id) " +
                 "VALUES (?, ?, ?, ?,?)";
 
