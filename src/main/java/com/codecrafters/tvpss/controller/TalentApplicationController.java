@@ -71,7 +71,7 @@ public class TalentApplicationController {
     public String deleteTalentPost(Model model,@PathVariable int id,
                                            RedirectAttributes redirectAttributes) {
         try {
-            TalentPostModel talentPost = applicationService.deleteById(id);
+            applicationService.deleteById(id);
             redirectAttributes.addFlashAttribute("message", "Request rejected successfully");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to reject request");

@@ -27,7 +27,6 @@ public class InterviewController {
 
     @GetMapping("/interview-list")
     public String showInterviewList(Model model) {
-//        model.addAttribute("interviewRequest", new InterviewModel());
         return "/interview/student-interview-list";
     }
 

@@ -41,7 +41,6 @@ public class UserProfileController {
     public String showEditStudentProfileForm(Model model, @PathVariable int id) {
         UserProfileModel userProfileModel = userProfileService.findById(id);
         model.addAttribute("userProfile", userProfileModel);
-//        model.addAttribute("isStudent", true);
         return "user/edit-user-profile";
     }
 

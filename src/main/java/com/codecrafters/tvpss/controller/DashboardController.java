@@ -41,34 +41,12 @@ public class DashboardController {
         if (authentication != null && authentication.getAuthorities() != null) {
             String username = authentication.getName();
             session.setAttribute("username", username);
-            
             session.setAttribute("schoolCode", "");
             session.setAttribute("schoolName", "");
-            
-            try {
-                jdbcTemplate.queryForObject(
-                    "SELECT school_code, school_name FROM auth WHERE username = ?",
-                    (rs, rowNum) -> {
-                        String schoolCode = rs.getString("school_code");
-                        String schoolName = rs.getString("school_name");
-                        if (schoolCode != null) {
-                            session.setAttribute("schoolCode", schoolCode);
-                        }
-                        if (schoolName != null) {
-                            session.setAttribute("schoolName", schoolName);
-                        }
-                        return null;
-                    },
-                    username
-                );
-            } catch (DataAccessException e) {
-                System.err.println("Error fetching school info: " + e.getMessage());
-            }
-            
+            loadSchoolInfo(username, session);
             for (GrantedAuthority authority : authentication.getAuthorities()) {
                 String role = authority.getAuthority().replace("ROLE_", "");
                 session.setAttribute("userRole", role);
-                //String userRole = (String) session.getAttribute("userRole");
                 if (authority.getAuthority().equals("ROLE_ADMIN")) {
                     return "redirect:/dashboard/admin";
                 } else if (authority.getAuthority().equals("ROLE_OFFICER")) {
@@ -79,6 +57,28 @@ public class DashboardController {
             }
         }
         return "redirect:/login";
+    }
+
+    private void loadSchoolInfo(String username, HttpSession session) {
+        try {
+            jdbcTemplate.queryForObject(
+                "SELECT school_code, school_name FROM auth WHERE username = ?",
+                (rs, rowNum) -> {
+                    String schoolCode = rs.getString("school_code");
+                    String schoolName = rs.getString("school_name");
+                    if (schoolCode != null) {
+                        session.setAttribute("schoolCode", schoolCode);
+                    }
+                    if (schoolName != null) {
+                        session.setAttribute("schoolName", schoolName);
+                    }
+                    return null;
+                },
+                username
+            );
+        } catch (DataAccessException e) {
+            System.err.println("Error fetching school info: " + e.getMessage());
+        }
     }
 
     @GetMapping("/dashboard/admin")
