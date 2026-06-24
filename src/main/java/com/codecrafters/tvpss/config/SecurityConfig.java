@@ -16,25 +16,27 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private static final String LOGIN_PATH = "/login";
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())  // For testing only - enable CSRF in production
             .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
+                .requestMatchers(LOGIN_PATH, "/css/**", "/js/**", "/images/**").permitAll()
                 .requestMatchers("/dashboard/admin/**").hasRole("ADMIN")
                 .requestMatchers("/dashboard/officer/**").hasRole("OFFICER")
                 .requestMatchers("/dashboard/student/**").hasRole("STUDENT")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
+                .loginPage(LOGIN_PATH)
+                .loginProcessingUrl(LOGIN_PATH)
                 .defaultSuccessUrl("/dashboard", true)
                 .permitAll()
             )
             .logout(logout -> logout
-                .logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl(LOGIN_PATH + "?logout")
                 .permitAll()
             );
         

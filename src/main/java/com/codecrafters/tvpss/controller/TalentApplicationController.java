@@ -222,8 +222,7 @@ public class TalentApplicationController {
         UserProfileModel userProfileModel = userProfileService.findByUsername(userName);
         long postIdLong = request.getId(); // Assuming getId() returns a long
         int postId = (int) postIdLong;
-        InterviewModel interviewModel = new InterviewModel();
-        int interview_id = interviewService.createInterview(interviewModel,postId, userName);
+        int interview_id = interviewService.createInterview(postId, userName);
 
         applicationService.addPostCandidate(request,userProfileModel.getId(),interview_id);
         model.addAttribute("message", "Request submitted successfully!");

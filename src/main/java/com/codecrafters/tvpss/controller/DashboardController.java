@@ -17,7 +17,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.dao.DataAccessException;
-import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 
@@ -77,7 +76,7 @@ public class DashboardController {
                 username
             );
         } catch (DataAccessException e) {
-            System.err.println("Error fetching school info: " + e.getMessage());
+            logger.error("Error fetching school info for username {}", username, e);
         }
     }
 

@@ -2,7 +2,6 @@ package com.codecrafters.tvpss.service;
 
 import com.codecrafters.tvpss.dao.ProgramStatusDao;
 import com.codecrafters.tvpss.model.ProgramStatusModel;
-import com.codecrafters.tvpss.model.ResourceRequestModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -41,6 +40,13 @@ public class ProgramStatusService {
     public void approveRequest(String id, String feedback) {
         ProgramStatusModel request = programStatusDao.findById(Long.parseLong(id));
         request.setStatus("Approved");
+        request.setFeedback(feedback);
+        programStatusDao.update(request);
+    }
+
+    public void rejectRequest(String id, String feedback) {
+        ProgramStatusModel request = programStatusDao.findById(Long.parseLong(id));
+        request.setStatus("Rejected");
         request.setFeedback(feedback);
         programStatusDao.update(request);
     }
