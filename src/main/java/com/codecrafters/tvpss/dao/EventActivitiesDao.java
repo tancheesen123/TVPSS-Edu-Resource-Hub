@@ -113,17 +113,4 @@ public void deleteById(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'save'");
     }
-
-    // public interface EventActivitiesDao extends JpaRepository<EventActivity, Long> {
-    // }
 }
-
-// public EventActivity findById(Long id) {
-//     String sql = "SELECT * FROM event_activities WHERE id = ?";
-//     try {
-//         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(EventActivity.class), id);
-//     } catch (Exception e) {
-//         logger.error("Error fetching event activity by ID: ", e);
-//         return null;
-//     }
-// }

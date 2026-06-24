@@ -2,7 +2,6 @@ package com.codecrafters.tvpss.config;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,9 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-    @Autowired
-    private DataSource dataSource;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -51,7 +47,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder, DataSource dataSource) {
         JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
         
         users.setUsersByUsernameQuery(

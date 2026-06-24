@@ -57,35 +57,4 @@ public class InterviewService {
     public void deleteInterview(int id) {
         interviewDao.deleteById(id);
     }
-
-
-//    public void approveRequest(Long id) {
-//        resourceRequests.stream()
-//                .filter(request -> request.getId().equals(id))
-//                .findFirst()
-//                .ifPresent(request -> request.setStatus("approved"));
-//    }
-
-//    public void rejectRequest(Long id) {
-//        resourceRequests.stream()
-//                .filter(request -> request.getId().equals(id))
-//                .findFirst()
-//                .ifPresent(request -> request.setStatus("rejected"));
-//    }
-//
-//    // Method to add a new request (for testing purposes)
-//    public void addRequest(ResourceRequestModel request) {
-//        resourceRequests.add(request);
-//    }
-//    @PostConstruct
-//    public void init() {
-//
-//        ResourceRequestModel testRequest = new ResourceRequestModel();
-//        testRequest.setId(1L);
-//        testRequest.setSchoolName("Test School");
-//        testRequest.setResourceType("Books");
-//        testRequest.setQuantity(10);
-//        testRequest.setStatus("pending");
-//        addRequest(testRequest);
-//    }
 }

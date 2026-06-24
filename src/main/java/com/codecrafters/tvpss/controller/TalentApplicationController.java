@@ -10,6 +10,8 @@ import com.codecrafters.tvpss.service.TalentApplicationService;
 import com.codecrafters.tvpss.service.UserProfileService;
 import com.codecrafters.tvpss.service.InterviewService;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import java.util.List;
 @Controller
 public class TalentApplicationController {
 
+    private static final Logger logger = LoggerFactory.getLogger(TalentApplicationController.class);
 
     @Autowired
     private TalentApplicationService applicationService;
@@ -42,7 +45,6 @@ public class TalentApplicationController {
 
     @GetMapping("/talent-list")
     public String showTalentApplicationList(Model model) {
-//        model.addAttribute("interviewRequest", new InterviewModel());
         return "/talent-application/manage-talent-application";
     }
 
@@ -58,7 +60,6 @@ public class TalentApplicationController {
         try {
             TalentPostModel talentPost = applicationService.findById(id);
             model.addAttribute("talentPost", talentPost);
-//            applicationService.updatePost(id);
             redirectAttributes.addFlashAttribute("message", "Request rejected successfully");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to reject request");
@@ -71,7 +72,6 @@ public class TalentApplicationController {
                                            RedirectAttributes redirectAttributes) {
         try {
             TalentPostModel talentPost = applicationService.deleteById(id);
-//            applicationService.updatePost(id);
             redirectAttributes.addFlashAttribute("message", "Request rejected successfully");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Failed to reject request");
@@ -81,27 +81,24 @@ public class TalentApplicationController {
 
     @GetMapping("/talentPost-list")
     public String showTalentPostList(Model model) {
-//        model.addAttribute("interviewRequest", new InterviewModel());
         List<TalentPostModel> talentPostList = applicationService.getAllPostTalent();
-        System.out.println("Talent Post List Size: " + talentPostList.size());  // Debug log
+        logger.debug("Talent Post List Size: {}", talentPostList.size());
         model.addAttribute("talentPostList", talentPostList);
         return "talent-application/manage-talent-post";
     }
 
     @GetMapping("/talentPost-list/open")
     public String showOpenTalentPostList(Model model) {
-//        model.addAttribute("interviewRequest", new InterviewModel());
         List<TalentPostModel> talentPostList = applicationService.getAllOpenPostTalent();
-        System.out.println("Talent Post List Size: " + talentPostList.size());  // Debug log
+        logger.debug("Talent Post List Size: {}", talentPostList.size());
         model.addAttribute("talentPostList", talentPostList);
         return "talent-application/manage-talent-post";
     }
 
     @GetMapping("/talentPostCandidate-list")
     public String showTalentPosCandidateList(Model model) {
-//        model.addAttribute("interviewRequest", new InterviewModel());
         List<TalentPostCandidateModel> talentPostCandidateList = applicationService.getAllPostTalentCandidate();
-        System.out.println("Talent Post List Size: " + talentPostCandidateList.size());  // Debug log
+        logger.debug("Talent Post List Size: {}", talentPostCandidateList.size());
         model.addAttribute("talentPostCandidateList", talentPostCandidateList);
         return "/talent-application/manage-talent-post-candidate";
     }
@@ -148,11 +145,10 @@ public class TalentApplicationController {
 
     @GetMapping("/dashboard/student/talentPostCandidate-list")
     public String showStudentCandidateList(HttpSession session,Model model) {
-//        model.addAttribute("interviewRequest", new InterviewModel());
         String userName = (String) session.getAttribute("username");
         UserProfileModel userProfileModel = userProfileService.findByUsername(userName);
         List<TalentPostCandidateModel> talentPostCandidateList = applicationService.getAllPostTalentCandidateByUserProfileId(userProfileModel.getId());
-        System.out.println("Talent Post List Size: " + talentPostCandidateList.size());  // Debug log
+        logger.debug("Talent Post List Size: {}", talentPostCandidateList.size());
         model.addAttribute("talentPostCandidateList", talentPostCandidateList);
         return "/interview/student-interview-list";
     }
@@ -206,16 +202,15 @@ public class TalentApplicationController {
     @GetMapping("/dashboard/student/talent-post/view-all")
     public String showAllPostList(Model model) {
         List<TalentPostModel> talentPostList = applicationService.getAllOpenPostTalent();
-        System.out.println("Talent Post List Size: " + talentPostList.size());  // Debug log
+        logger.debug("Talent Post List Size: {}", talentPostList.size());
         model.addAttribute("talentPostList", talentPostList);
-//        model.addAttribute("interviewRequest", new InterviewModel());
         return "/talent-application/student-view-all-post-list";
     }
 
     @GetMapping("/dashboard/student/talent-post/apply/{id}")
     public String showPostList(Model model,@PathVariable String id) {
         TalentPostModel talentPost = applicationService.findById(id);
-        System.out.println("TalentPost" + talentPost.getTalentName());
+        logger.debug("TalentPost {}", talentPost.getTalentName());
         model.addAttribute("talentPost", talentPost);
         return "/talent-application/student-apply-post-list";
     }
@@ -249,7 +244,7 @@ public class TalentApplicationController {
                                        RedirectAttributes redirectAttributes) {
         String status = "rejected";
         String feedback = "rejected";
-        System.out.println("This is id and status" +id);
+        logger.debug("This is id and status {}", id);
         applicationService.updateStatusApprove(id, status);
         interviewService.rejectInterview(idInterview,status,feedback);
         redirectAttributes.addFlashAttribute("message", "Request approved successfully");

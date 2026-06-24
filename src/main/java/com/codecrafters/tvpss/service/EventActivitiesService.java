@@ -18,10 +18,6 @@ public class EventActivitiesService {
         return eventActivitiesDao.findAll();
     }
 
-    // public Optional<EventActivity> getEventActivityById(Long id) {
-    //     return Optional.ofNullable(eventActivitiesDao.findById(id));
-    // }
-
     public void saveEventActivity(EventActivity eventActivity) {
         if (eventActivity.getId() == null) {
             eventActivitiesDao.addEventActivity(eventActivity);
@@ -29,11 +25,6 @@ public class EventActivitiesService {
             eventActivitiesDao.updateEventActivity(eventActivity);
         }
     }
-
-    // public EventActivity getEventById(Long eventId) {
-    //     return eventActivitiesDao.findById(eventId)
-    //            .orElseThrow(() -> new RuntimeException("Event not found"));
-    // }
 
     public void deleteEventActivity(Long id) {
         eventActivitiesDao.deleteById(id); // Call DAO to delete by ID

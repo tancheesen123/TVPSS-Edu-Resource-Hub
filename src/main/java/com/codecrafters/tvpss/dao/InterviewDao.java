@@ -117,7 +117,7 @@ public class InterviewDao {
     public void update(InterviewModel interview) {
         String sql = "UPDATE interview SET post_talent_id = ?, time = ?, date = ?, feedback = ?, status = ?, username = ? " +
                 "WHERE id = ?";
-        System.out.println("this is username"+ interview.getUsername());
+        logger.debug("this is username {}", interview.getUsername());
         try {
             jdbcTemplate.update(sql,
                     interview.getPost_talent_id(),

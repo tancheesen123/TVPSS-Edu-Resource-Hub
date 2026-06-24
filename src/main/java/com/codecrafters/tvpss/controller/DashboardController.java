@@ -7,6 +7,8 @@ import com.codecrafters.tvpss.service.TalentApplicationService;
 import com.codecrafters.tvpss.service.UserProfileService;
 import com.codecrafters.tvpss.model.Dashboard;
 import jakarta.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,8 @@ import java.util.List;
 
 @Controller
 public class DashboardController {
+
+    private static final Logger logger = LoggerFactory.getLogger(DashboardController.class);
 
     @Autowired
     private DashboardService dashboardService;
@@ -100,7 +104,7 @@ public class DashboardController {
         String userName = (String) session.getAttribute("username");
         UserProfileModel userProfileModel = userProfileService.findByUsername(userName);
         model.addAttribute("userProfile", userProfileModel);
-        System.out.println("This is Username " + userProfileModel.getAbout_me());
+        logger.debug("This is Username {}", userProfileModel.getAbout_me());
         return "dashboard/dashboard-student";
     }
 }

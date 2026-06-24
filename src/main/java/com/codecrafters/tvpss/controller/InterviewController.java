@@ -57,27 +57,5 @@ public class InterviewController {
         redirectAttributes.addFlashAttribute("message", "Request approved successfully");
         return "redirect:/talentPostCandidate-list";
     }
-//
-//
-//
-//    @GetMapping("/manage")
-//    public String showManageRequestsPage(Model model) {
-//        model.addAttribute("requests", InterviewService.getPendingRequests());
-//        return "manage-resource-request-dashboard";
-//    }
-//
-//    @PostMapping("/manage/{id}/approve")  // Updated path
-//    @ResponseBody
-//    public String approveRequest(@PathVariable Long id) {
-//        InterviewService.approveRequest(id);
-//        return "Request approved";
-//    }
-//
-//    @PostMapping("/manage/{id}/reject")  // Updated path
-//    @ResponseBody
-//    public String rejectRequest(@PathVariable Long id) {
-//        InterviewService.rejectRequest(id);
-//        return "Request rejected";
-//    }
 
 }
