@@ -24,6 +24,7 @@ import java.util.List;
 public class DashboardController {
 
     private static final Logger logger = LoggerFactory.getLogger(DashboardController.class);
+    private static final String ATTR_DASHBOARD = "dashboard";
 
     @Autowired
     private DashboardService dashboardService;
@@ -83,14 +84,14 @@ public class DashboardController {
     @GetMapping("/dashboard/admin")
     public String adminDashboard(Model model) {
         Dashboard dashboard = dashboardService.getAdminDashboard();
-        model.addAttribute("dashboard", dashboard);
+        model.addAttribute(ATTR_DASHBOARD, dashboard);
         return "dashboard/dashboard-admin";
     }
 
     @GetMapping("/dashboard/officer")
     public String officerDashboard(Model model) {
         Dashboard dashboard = dashboardService.getOfficerDashboard();
-        model.addAttribute("dashboard", dashboard);
+        model.addAttribute(ATTR_DASHBOARD, dashboard);
         return "dashboard/dashboard-officer";
     }
 
@@ -99,7 +100,7 @@ public class DashboardController {
         Dashboard dashboard = dashboardService.getStudentDashboard();
         List<TalentPostModel> threetalentPostList = talentApplicationService.getThreePostTalent();
         model.addAttribute("threetalentPostList", threetalentPostList);
-        model.addAttribute("dashboard", dashboard);
+        model.addAttribute(ATTR_DASHBOARD, dashboard);
         String userName = (String) session.getAttribute("username");
         UserProfileModel userProfileModel = userProfileService.findByUsername(userName);
         model.addAttribute("userProfile", userProfileModel);

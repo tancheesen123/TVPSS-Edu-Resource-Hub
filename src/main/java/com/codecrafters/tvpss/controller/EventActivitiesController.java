@@ -20,6 +20,10 @@ import com.codecrafters.tvpss.service.EventActivitiesService;
 @Controller
 public class EventActivitiesController {
 
+    private static final String ATTR_EVENTS = "events";
+    private static final String KEY_SUCCESS = "success";
+    private static final String KEY_MESSAGE = "message";
+
     @Autowired
     private EventActivitiesService eventActivitiesService;
 
@@ -45,14 +49,14 @@ public ResponseEntity<List<EventActivity>> getAllEvents() {
     @GetMapping("/event-list")
     public String showEventList(Model model) {
         List<EventActivity> events = eventActivitiesService.getAllEventActivities();
-        model.addAttribute("events", events);
+        model.addAttribute(ATTR_EVENTS, events);
         return "event-list";
     }
 
     @GetMapping("/event-activities/manage-event")
     public String manageEvents(Model model) {
         List<EventActivity> events = eventActivitiesService.getAllEventActivities();
-        model.addAttribute("events", events);
+        model.addAttribute(ATTR_EVENTS, events);
         return "event-activities/manage-event";
     }
 
@@ -86,7 +90,7 @@ public String showAllEventActivities(Model model) {
 public String showAllEventsPage(Model model) {
     // Fetch all events and add them to the model
     List<EventActivity> events = eventActivitiesService.getAllEventActivities();
-    model.addAttribute("events", events);
+    model.addAttribute(ATTR_EVENTS, events);
     return "event-activities/officer-event-report";
 }
 
@@ -104,15 +108,15 @@ public String showAllEventsPage(Model model) {
     @PostMapping("/event-activities/update-event")
     public ResponseEntity<Map<String, String>> updateEvent(@ModelAttribute EventActivity event) {
         if (event.getId() == null) {
-            return ResponseEntity.badRequest().body(Map.of("success", "false", "message", "Event ID is missing."));
+            return ResponseEntity.badRequest().body(Map.of(KEY_SUCCESS, "false", KEY_MESSAGE, "Event ID is missing."));
         }
 
         try {
             eventActivitiesService.updateEvent(event);
-            return ResponseEntity.ok(Map.of("success", "true", "message", "Event updated successfully."));
+            return ResponseEntity.ok(Map.of(KEY_SUCCESS, "true", KEY_MESSAGE, "Event updated successfully."));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(500).body(Map.of("success", "false", "message", "Failed to update event."));
+            return ResponseEntity.status(500).body(Map.of(KEY_SUCCESS, "false", KEY_MESSAGE, "Failed to update event."));
         }
     }
 
@@ -125,7 +129,7 @@ public String showAllEventsPage(Model model) {
 
     @GetMapping("/dashboard/events")
     public String showStudentEvents(Model model) {
-        model.addAttribute("events", eventActivitiesService.getAllEventActivities());
+        model.addAttribute(ATTR_EVENTS, eventActivitiesService.getAllEventActivities());
         return "dashboard/events";
     }
 

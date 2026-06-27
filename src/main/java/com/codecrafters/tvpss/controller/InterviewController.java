@@ -12,6 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class InterviewController {
 
 
+    private static final String KEY_MESSAGE = "message";
+    private static final String REDIRECT_CANDIDATE_LIST = "redirect:/talentPostCandidate-list";
+
     @Autowired
     private InterviewService interviewService;
 
@@ -34,8 +37,8 @@ public class InterviewController {
     public String submitForm(InterviewModel request, Model model) {
         // Process the request object as needed
         interviewService.updateInterview(request);
-        model.addAttribute("message", "Request submitted successfully!");
-        return "redirect:/talentPostCandidate-list";
+        model.addAttribute(KEY_MESSAGE, "Request submitted successfully!");
+        return REDIRECT_CANDIDATE_LIST;
     }
     @PostMapping("/admin/interview/{id}/approve")
     public String approveInterview(@PathVariable int id,
@@ -43,8 +46,8 @@ public class InterviewController {
                                  RedirectAttributes redirectAttributes) {
         String status = "approved";
         interviewService.approveInterview(id, status, feedback);
-        redirectAttributes.addFlashAttribute("message", "Request approved successfully");
-        return "redirect:/talentPostCandidate-list";
+        redirectAttributes.addFlashAttribute(KEY_MESSAGE, "Request approved successfully");
+        return REDIRECT_CANDIDATE_LIST;
     }
 
     @PostMapping("/admin/interview/{id}/reject")
@@ -53,8 +56,8 @@ public class InterviewController {
                                  RedirectAttributes redirectAttributes) {
         String status = "rejected";
         interviewService.rejectInterview(id, status, feedback);
-        redirectAttributes.addFlashAttribute("message", "Request approved successfully");
-        return "redirect:/talentPostCandidate-list";
+        redirectAttributes.addFlashAttribute(KEY_MESSAGE, "Request approved successfully");
+        return REDIRECT_CANDIDATE_LIST;
     }
 
 }
